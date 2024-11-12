@@ -31,7 +31,7 @@ const Header = () => {
   const [categories, setCategories] = useState([])
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const { cartProduct } = store();
+  const { cartProduct, favoriteProduct, currentUser } = store();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +58,7 @@ const Header = () => {
         console.log("Error fetching data", error);
       }
     };
-    
+
     fetchData();
   },[]);
   
@@ -75,7 +75,6 @@ const Header = () => {
        <img src={logo} alt="logo" className='w-44' />
        </Link>
 
-        {/* searchbar */}
         <div className='hidden md:inline-flex max-w-3xl w-full relative'>
           <input type="text"
             onChange={(e) => setSearchText(e.target.value)}
@@ -115,13 +114,21 @@ const Header = () => {
         {/* Menubar */}
         <div className='flex items-center gap-x-6 text-2xl'>
          <Link to={"/profile"}>
-         <FiUser className="hover:text-skyText duration-200 cursor-pointer" />
+        {currentUser? 
+        (
+        <img src={currentUser?.avatar} alt='profileImg' 
+          className='w-15 h-15 rounded-full object-cover'/>
+         ) : (
+           <FiUser className="hover:text-skyText duration-200 cursor-pointer" />
+          )}
          </Link>
           <div className='relative block'>
-          <Link to={"/favorite"}>
+          <Link to={"/favorite"} className='relative block'>
           <FiStar className="hover:text-skyText duration-200 cursor-pointer" />
           </Link>
-            <span className='inline-flex items-center justify-center bg-redText text-whiteText absolute -top-1 -right-2 text-[9px] rounded-full w-4 h-4'>0</span>
+            <span className='inline-flex items-center justify-center bg-redText text-whiteText absolute -top-1 -right-2 text-[9px] rounded-full w-4 h-4'>
+            {favoriteProduct?.length > 0 ? favoriteProduct?.length : "0"}
+            </span>
           </div>
           <Link to={"/cart"} className='relative block'>
             <FiShoppingBag className="hover:text-skyText duration-200 cursor-pointer" />

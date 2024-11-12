@@ -14,11 +14,10 @@ import {
 } from "@headlessui/react";
 import ProductCardSideNav from './ProductCardSideNav';
 
-
 const ProductCard = ({ item, setSearchText }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigation = useNavigate()
-
+  
   const open=()=>{
     setIsOpen(true);
   }
@@ -38,7 +37,7 @@ const ProductCard = ({ item, setSearchText }) => {
         <span onClick={open} className='bg-[#6f1628] text-white absolute left-0 right-0 w-16 text-xs text-center p-1 rounded-md font-semibold inline-block z-10'>
           save {percentage.toFixed(0)}%</span>
         <img onClick={handleProduct} src={item?.images[0]} alt="cardimages" className='w-full h-full rounded-md object-cover group-hover:scale-110 duration-300' />
-      <ProductCardSideNav/>
+      <ProductCardSideNav product={item} />
       </div>
       <div className='flex flex-col gap-2 px-2 pb-2'>
         <h3 className='text-xs uppercase font-semibold text-lightText'>

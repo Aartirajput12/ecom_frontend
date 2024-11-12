@@ -3,8 +3,9 @@ import { twMerge } from 'tailwind-merge';
 import { store } from '../lib/store';
 import Swal from 'sweetalert2'
 import { FaMinus, FaPlus } from "react-icons/fa";
+import PriceTag from './PriceTag';
 
-const AddToCartBtn = ({ className, title, product }) => {
+const AddToCartBtn = ({ className, title, product, showPrice=true, }) => {
 
     const Toast = Swal.mixin({
         toast: true,
@@ -47,12 +48,10 @@ const AddToCartBtn = ({ className, title, product }) => {
             );
           }else{
             Toast.fire({title: `${product?.name.substring(0,10)} You can not decrease less than 1`, position: "bottom-end",  color: "white", background: "black",  icon: "error", iconColor: "red" });
-            
           }
          
         }else{
 
-          
         }
       }
 
@@ -60,9 +59,39 @@ const AddToCartBtn = ({ className, title, product }) => {
         "bg-[#f7f7f7] text-sm py-3 text-center rounded-full font-semibold hover:bg-[#6f1628] hover:text-white hover:scale-105 duration-200 cursor-pointer",
         className
     );
+    const getRegularPrice=()=>{
+      if(existingProduct){
+        if(product){
+          return product?.regularPrice * existingProduct?.quantity
+        }
+      }
+      else{
+        return product?.regularPrice;
+      }
+    };
+
+    const getDiscountedPrice=()=>{
+      if(existingProduct){
+        if(product){
+          return product?.discountedPrice * product?.quantity;
+        }
+      }
+      else{
+        return product?.discountedPrice;
+      }
+    }
+
     
     return (
         <>
+        {showPrice && (
+          <div>
+            <PriceTag
+            regularPrice={getRegularPrice()}
+            discountedPrice={getDiscountedPrice()}
+            />
+          </div>
+        )}
            {existingProduct ? (
               <div className='flex self-center items-center justify-center gap-2'>
                 <button onClick={handleDeleteProduct} className='bg-[#f7f7f7] text-black p-2 border-[1px] border-gray-200 hover:border-[#6f1628] rounded-full text-sm

@@ -14,6 +14,8 @@ import Orders from './pages/Orders.jsx';
 import Success from './pages/Success.jsx';
 import Cancel from './pages/Cancel.jsx';
 import NotFound from './pages/NotFound.jsx';
+import Profile from './pages/Profile.jsx';
+import UserInfo from './ui/UserInfo.jsx';
 
 const RouterLayout = () => {
   return(
@@ -55,12 +57,22 @@ const router = createBrowserRouter([
         element: <Cart/>,      
       },
       {
-        path: "favorite",
+        path: "/favorite",
         element: <Favorite/>,      
       },
       {
         path: "/orders",
         element: <Orders/>,      
+      },
+      {
+        path: "/profile",
+        element: <Profile/>,      
+        
+      },
+      {
+        path: "/userinfo",
+        element: <UserInfo/>,      
+        
       },
       {
         path: "/success",

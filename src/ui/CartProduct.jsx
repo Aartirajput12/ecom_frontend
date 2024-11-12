@@ -45,7 +45,7 @@ const CartProduct = ({product}) => {
                         <p className='text-base font-semibold'>
                             <FormattedPrice amount={product?.discountedPrice * product?.quantity }/>
                         </p>
-                        <AddToCartBtn product={product}/>
+                        <AddToCartBtn product={product} showPrice={false}/>
                     </div>
                 </div>
                 <div className='mt-4 sm:mt-0 sm:pr-9'>
@@ -57,11 +57,13 @@ const CartProduct = ({product}) => {
             <div>
             {product?.isStock && (
                  <p className='mt-4 flex space-x-2 text-sm text-gray-700'>
-                    <FaCheck className='text-lg text-green-500'/>
-                    <span>In Stock Ships in 3-4 weeks</span>
+                    <FaCheck className='text-lg text-green-500'/>{" "}
+                    <span>In Stock</span>
                 </p>
             )}
 
+            <p>You are saving{" "} 
+                <span className='text-sm font-semibold text-green-500'><FormattedPrice amount={product?. regularPrice - product?.discountedPrice}/></span>{" "}upon purchase</p> 
         </div>
         
         </div>

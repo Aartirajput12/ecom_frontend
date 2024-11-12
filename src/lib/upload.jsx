@@ -1,5 +1,6 @@
 import { storage } from "./firebase";
-import {ref} from "./firebase/storage";
+import { ref } from "firebase/storage";
+import { uploadBytesResumable } from "firebase/storage";
 
 const upload = async (file) => {
     const date = new Date();

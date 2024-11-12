@@ -1,11 +1,8 @@
-import React, { useEffect, useState
-  
- } from 'react'
+import React, { useEffect, useState} from 'react'
 import Container from './Container'
 import Title from './Title'
 import { getData } from '../lib';
 import { config } from '../config';
-
 
     const Blog = () => {
         const [blogsData, setBlogsData] = useState([]);
@@ -40,6 +37,7 @@ import { config } from '../config';
         ))}
         </div>
     </Container>
+
   )
 }
 

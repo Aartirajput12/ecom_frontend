@@ -8,6 +8,7 @@ import ProductList from './ui/ProductList';
 import DiscountedBanner from './ui/DiscountedBanner';
 import Blog from './ui/Blog';
 import { ToastContainer } from 'react-toastify';
+import Profile from './pages/Profile';
 
 const App = () => {
   return (
@@ -20,7 +21,6 @@ const App = () => {
         <ProductList />
         <DiscountedBanner />
         <Blog/>
-        
       </main>
     </>
 

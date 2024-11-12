@@ -1,49 +1,41 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from './firebase';
+import { doc, getDoc } from "firebase/firestore";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { db } from "./firebase";
 
 const customStorage = {
   getItem: (name) => {
     const item = localStorage.getItem(name);
     return item ? JSON.parse(item) : null;
   },
-
   setItem: (name, value) => {
     localStorage.setItem(name, JSON.stringify(value));
   },
-
   removeItem: (name) => {
     localStorage.removeItem(name);
   },
 };
-
-export const store = create(
+export const store = create()(
   persist(
     (set) => ({
       currentUser: null,
-      isLoading: true,
+      isLoading: false,
       cartProduct: [],
       favoriteProduct: [],
 
       getUserInfo: async (uid) => {
-        if (!uid) {
-          set({ currentUser: null, isLoading: false });
-          return;
-        }
-        const docRef = doc(db, 'users', uid);
+        if (!uid) return set({ currentUser: null, isLoading: false });
+
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+
         try {
-          const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
-            set({
-              currentUser: docSnap.data(),
-              isLoading: false,
-            });
-          } else {
-            set({ currentUser: null, isLoading: false });
+            set({ currentUser: docSnap.data() , isLoading: false });
+
           }
         } catch (error) {
-          console.log('getUserInfo error', error);
+          console.log("getUserInfo error", error);
           set({ currentUser: null, isLoading: false });
         }
       },
@@ -106,9 +98,37 @@ export const store = create(
       resetCart: () => {
         set({ cartProduct: [] });
       },
+      addToFavorite: (product) => {
+        return new Promise((resolve) => {
+          set((state) => {
+            const isFavorite = state.favoriteProduct.some(
+              (item) => item._id === product._id
+            );
+            return {
+              favoriteProduct: isFavorite
+                ? state.favoriteProduct.filter(
+                    (item) => item._id !== product._id
+                  )
+                : [...state.favoriteProduct, { ...product }],
+            };
+          });
+          resolve();
+        });
+      },
+
+      removeFromFavorite: (productId) => {
+        set((state) => ({
+          favoriteProduct: state.favoriteProduct.filter(
+            (item) => item._id !== productId
+          ),
+        }));
+      },
+      resetFavorite: () => {
+        set({ favoriteProduct: [] });
+      },
     }),
     {
-      name: 'ecommerce-storage',
+      name: "supergear-storage",
       storage: customStorage,
     }
   )

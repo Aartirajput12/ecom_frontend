@@ -61,7 +61,7 @@ const NotFound = () => {
               role="list"
               className="divide-y divide-gray-900/5 border-b border-gray-900/5 flex flex-col"
             >
-              {links.map((link, linkIdx) => (
+              {links?.map((link, linkIdx) => (
                 <li
                   key={linkIdx}
                   className="relative flex gap-x-6 py-4 hover:bg-skyText/20 px-4 rounded-md"
@@ -74,13 +74,13 @@ const NotFound = () => {
                   </div>
                   <div className="flex-auto">
                     <h3 className="text-sm font-semibold leading-6 text-gray-900">
-                      <a href={link.href}>
+                      <a href={link?.href}>
                         <span className="absolute inset-0" aria-hidden="true" />
-                        {link.name}
+                        {link?.name}
                       </a>
                     </h3>
                     <p className="mt-2 text-sm leading-6 text-gray-600">
-                      {link.description}
+                      {link?.description}
                     </p>
                   </div>
                   <div className="flex-none self-center">
